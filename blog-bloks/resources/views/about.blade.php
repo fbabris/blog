@@ -11,8 +11,8 @@
         <li><a href="about">About</a></li>
     </ul>
     <div class="main">
-        <h1>Home page</h1>
-        <p>This is the home page</p>
+        <h1>About page</h1>
+        <p>This is the about page.</p>
     </div>
 </body>
 </html>
