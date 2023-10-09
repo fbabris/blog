@@ -13,7 +13,15 @@
 
         <li><a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
         <li><a class="{{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About us</a></li>
+        @auth        
         <li><a class="{{ request()->routeIs('posts.create') ? 'active' : '' }}" href="{{ route('posts.create') }}">Create a post</a></li>
+        <li><a href="{{ route('logout') }}">Logout</a></li>
+        <li class="username"><p>Logged in as <b>{{ Auth::user()->name }}</b></p></li>
+        @endauth
+        @guest
+        <li><a href="{{ route('register') }}" class="{{ request()->routeIs('register') ? 'active' : '' }}">Register</a></li>
+        <li><a href="{{ route('login') }}" class="{{ request()->routeIs('login') ? 'active' : '' }}">Login</a></li>
+        @endguest
 
     </ul>
 

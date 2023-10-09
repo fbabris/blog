@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 
+use App\Http\Requests\PostFormRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -20,19 +21,11 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostFormRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => ['required', 'min:10'],
-        ]);
+        $validated = $request->validated();
 
-        $post = new Post();
-
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-
-        $post->save();
+        $post = Post::create($validated); 
 
         return redirect()
         ->route('posts.show', [$post])
@@ -64,17 +57,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostFormRequest $request, Post $post)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => ['required', 'min:10'],
-        ]);
+        $validated = $request->validated();
 
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-
-        $post->save();
+        $post->update($validated);
 
         return redirect()
             ->route('posts.show', [$post])
