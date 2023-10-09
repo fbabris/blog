@@ -35,7 +35,7 @@ class PostController extends Controller
         $post->save();
 
         return redirect()
-        ->route('posts.create')
+        ->route('posts.show', [$post])
         ->with('success', 'Post is submitted! Title: ' .
         $post->title . ' Description: ' .
         $post->description);
@@ -44,32 +44,52 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view('posts.show', [
+            'post' => $post,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => ['required', 'min:10'],
+        ]);
+
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+
+        $post->save();
+
+        return redirect()
+            ->route('posts.show', [$post])
+            ->with('success', 'Post is updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()
+            ->route('home')
+            ->with('success', 'Post has been deleted!');
     }
 }
